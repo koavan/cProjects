@@ -16,6 +16,5 @@ int main(int argc, char **argv)
 		*(start+i)='*';
 	}
 	printf("Filled string is %s\n",sentence);
-	
 	return 0;
 }
