@@ -14,6 +14,18 @@ struct Board
     struct Quadrant quadrant[3][3];
 };
 
+int boardMap[9][9] = {
+			{5, 3, -1, 6, -1, -1, -1, 9, 8},
+			{-1, 7, -1, 1, 9, 5, -1, -1, -1},
+			{-1, -1, -1, -1, -1, -1, -1, 6, -1},
+			{8, -1, -1, 4, -1, -1, 7, -1, -1},
+			{-1, 6, -1, 8, -1, 3, -1, 2, -1},
+			{-1, -1, 3, -1, -1, 1, -1, -1, 6},
+			{-1, 6, -1, -1, -1, -1, -1, -1, -1},
+			{-1, -1, -1, 4, 1, 9, -1, 8, -1},
+			{2, 8, -1, -1, -1, 5, -1, 7, 9}
+		};
+
 void init_Board(struct Board *b)
 {
     int i=0,j;
@@ -25,6 +37,44 @@ void init_Board(struct Board *b)
 	    init_Quadrant(&(b->quadrant[i][j]));
 	}
     }
+    clrscr();
+}
+
+void init_BoardFromMap(struct Board *b)
+{
+	int i,j,k=0,l=0,m=0,n=0;
+	printf("\nInitialising Board in reference to the map...\n");
+	for(i=0;i<3;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			n=0;
+			for(l=0;l<3;l++)
+			{
+				for(m=0;m<3;m++)
+				{
+					b->quadrant[i][j].cell[l][m]=boardMap[k][n];
+					n++;
+				}
+			}
+			k++;
+		}
+	}
+}
+
+int init_QuadrantFromMap(struct Quadrant *q, int *p)
+{
+	int i=0,j=0,k=0;
+	for(;i<3;i++)
+	{
+		for(j=0;j<3;j++)
+		{
+			q->cell[i][j]=*(p+k);
+			printf("%x\t",(p+k));
+			k++;
+		}
+	}
+	return 0;
 }
 
 int init_Quadrant(struct Quadrant *q)
@@ -35,7 +85,7 @@ int init_Quadrant(struct Quadrant *q)
     {
 	for(j=0;j<3;j++)
 	{
-	    q->cell[i][j] = x;
+	    q->cell[i][j] = -1;
 	    ++x;
 	}
     }
@@ -193,11 +243,12 @@ int main()
 	struct Board myBoard;
 	clrscr();
 	//init_graphics();
-	init_Board(&myBoard);
+	//init_Board(&myBoard);
+	init_BoardFromMap(&myBoard);
 	show_Board(&myBoard);
 	//show_Quadrant(&(myBoard.quadrant[0][0]));
 	//show_BoardInColor(&myBoard);
-	setup_BoardPrompt(&myBoard);
-    	getch();
-    	return 0;
+	//setup_BoardPrompt(&myBoard);
+	getch();
+	return 0;
 }
